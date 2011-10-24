@@ -1,8 +1,3 @@
-num_discs = 0
-num_pegs = 0
-start_state = []
-end_state = []
-
 def hanoi(n, pegs)
   if n > 0
     if n == 1
@@ -12,7 +7,6 @@ def hanoi(n, pegs)
       rest = pegs.slice 3
       rest = rest.is_a?(Array) ? rest : [rest]
 
-      #I think k is a given? Has something to do with end state
       k = rest.any? ? n - 1 : n/2
 
       [
@@ -23,6 +17,11 @@ def hanoi(n, pegs)
     end
   end
 end
+
+num_discs = 0
+num_pegs = 0
+start_state = []
+end_state = []
 
 ARGF.each_with_index do |line, i|
   if i == 0
