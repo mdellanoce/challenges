@@ -8,8 +8,49 @@ class Move
   end
 end
 
+class Disc < Integer
+end
+
+class Peg
+  def initialize
+    @discs = []
+  end
+  
+  def push(disc)
+    @discs.push(disc)
+  end
+  
+  def pop
+    @discs.pop
+  end
+  
+  def [](i)
+    @discs[i-1]
+  end
+end
+
+class Pegs
+  def initialize(pegs, state)
+    @discs = state.length
+    @pegs = []
+    1.upto(pegs) do |peg|
+      @pegs.push Peg.new
+    end
+    state.reverse.each_with_index do |peg, i|
+      @pegs[peg - 1].push(@discs - i)
+    end
+  end
+  
+  def to_s
+    result = ""
+    (@discs).downto(1) do |row|
+      result += @pegs.map {|p| p[row] || "|"}.join(" ") + "\n"
+    end
+    result
+  end
+end
+
 def hanoi(n, pegs)
-  puts "#{n} #{pegs.inspect}"
   if n > 0
     if n == 1
       [Move.new pegs[0], pegs[1]]
@@ -41,6 +82,8 @@ ARGF.each_with_index do |line, i|
     end_state = line.split.map {|x| Integer(x)}
   end
 end
+
+puts Pegs.new(num_pegs, start_state)
 
 moves = hanoi(num_discs, (1..num_pegs).to_a)
 
