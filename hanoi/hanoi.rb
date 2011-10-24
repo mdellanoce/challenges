@@ -48,22 +48,28 @@ class Pegs
     end
     result
   end
-end
+  
+  def moves
+    hanoi(@discs, (1..@pegs.length).to_a)
+  end
+  
+  protected
+  
+  def hanoi(n, pegs)
+    if n > 0
+      if n == 1
+        [Move.new pegs[0], pegs[1]]
+      else
+        p1,p2,p3 = pegs
+        rest = pegs.slice(3) || []
+        rest = rest.is_a?(Array) ? rest : [rest]
 
-def hanoi(n, pegs)
-  if n > 0
-    if n == 1
-      [Move.new pegs[0], pegs[1]]
-    else
-      p1,p2,p3 = pegs
-      rest = pegs.slice(3) || []
-      rest = rest.is_a?(Array) ? rest : [rest]
+        k = rest.any? ? n/2 : n-1
 
-      k = rest.any? ? n/2 : n-1
-
-      hanoi(k, [p1,p3,p2] + rest) +
-      hanoi(n-k, [p1,p2] + rest) +
-      hanoi(k, [p3,p2,p1] + rest)
+        hanoi(k, [p1,p3,p2] + rest) +
+        hanoi(n-k, [p1,p2] + rest) +
+        hanoi(k, [p3,p2,p1] + rest)
+      end
     end
   end
 end
@@ -83,11 +89,16 @@ ARGF.each_with_index do |line, i|
   end
 end
 
-puts Pegs.new(num_pegs, start_state)
+start = Pegs.new(num_pegs, start_state)
 
-moves = hanoi(num_discs, (1..num_pegs).to_a)
+moves = start.moves
 
 puts moves.length
 moves.each do |move|
   puts "#{move.start} #{move.destination}"
 end
+
+puts
+puts start
+puts
+puts Pegs.new(num_pegs, end_state)
