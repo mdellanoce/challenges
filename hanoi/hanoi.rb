@@ -43,7 +43,7 @@ class Pegs
   
   def to_s
     result = ""
-    (@discs).downto(1) do |row|
+    @discs.downto(1) do |row|
       result += @pegs.map {|p| p[row] || "|"}.join(" ") + "\n"
     end
     result
