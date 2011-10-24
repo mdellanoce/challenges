@@ -20,12 +20,9 @@ def hanoi(n, pegs)
 
       k = rest.any? ? n/2 : n-1
 
-      result = []
-      result.concat hanoi(k, [p1,p3,p2] + rest)
-      result.concat hanoi(n-k, [p1,p2] + rest)
-      result.concat hanoi(k, [p3,p2,p1] + rest)
-      
-      result
+      hanoi(k, [p1,p3,p2] + rest) +
+      hanoi(n-k, [p1,p2] + rest) +
+      hanoi(k, [p3,p2,p1] + rest)
     end
   end
 end
