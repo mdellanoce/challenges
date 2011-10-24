@@ -1,7 +1,17 @@
+class Move
+  attr_reader :start
+  attr_reader :destination
+  
+  def initialize(start, destination)
+    @start = start
+    @destination = destination
+  end
+end
+
 def hanoi(n, pegs)
   if n > 0
     if n == 1
-      [pegs[0], pegs[1]]
+      [Move.new pegs[0], pegs[1]]
     else
       p1,p2,p3 = pegs
       rest = pegs.slice 3
@@ -9,11 +19,12 @@ def hanoi(n, pegs)
 
       k = rest.any? ? n - 1 : n/2
 
-      [
-        hanoi(k, [p1,p3,p2].concat(rest)),
-        hanoi(n-k, [p1,p2].concat(rest)),
-        hanoi(k, [p3,p2,p1].concat(rest))
-      ]
+      result = []
+      result.concat hanoi(k, [p1,p3,p2].concat(rest))
+      result.concat hanoi(n-k, [p1,p2].concat(rest))
+      result.concat hanoi(k, [p3,p2,p1].concat(rest))
+      
+      result
     end
   end
 end
@@ -37,5 +48,5 @@ moves = hanoi(num_discs, (1..num_pegs).to_a)
 
 puts moves.length
 moves.each do |move|
-  puts move.join(" ")
+  puts "#{move.start} #{move.destination}"
 end
