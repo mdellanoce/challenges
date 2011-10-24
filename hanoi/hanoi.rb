@@ -9,20 +9,21 @@ class Move
 end
 
 def hanoi(n, pegs)
+  puts "#{n} #{pegs.inspect}"
   if n > 0
     if n == 1
       [Move.new pegs[0], pegs[1]]
     else
       p1,p2,p3 = pegs
-      rest = pegs.slice 3
+      rest = pegs.slice(3) || []
       rest = rest.is_a?(Array) ? rest : [rest]
 
-      k = rest.any? ? n - 1 : n/2
+      k = rest.any? ? n/2 : n-1
 
       result = []
-      result.concat hanoi(k, [p1,p3,p2].concat(rest))
-      result.concat hanoi(n-k, [p1,p2].concat(rest))
-      result.concat hanoi(k, [p3,p2,p1].concat(rest))
+      result.concat hanoi(k, [p1,p3,p2] + rest)
+      result.concat hanoi(n-k, [p1,p2] + rest)
+      result.concat hanoi(k, [p3,p2,p1] + rest)
       
       result
     end
