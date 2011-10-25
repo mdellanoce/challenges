@@ -1,3 +1,7 @@
+#Graph of game states - with edges as moves
+#Dijkstra's shortest path algorithm
+#http://en.wikipedia.org/wiki/Tower_of_Hanoi#Graphical_representation
+
 class Move
   attr_reader :start
   attr_reader :destination
