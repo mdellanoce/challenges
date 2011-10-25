@@ -58,7 +58,8 @@ class Pegs
   def hanoi(n, pegs)
     if n > 0
       if n == 1
-        [Move.new pegs[0], pegs[1]]
+        @pegs[pegs[1]-1].push(@pegs[pegs[0]-1].pop)
+        [Move.new(pegs[0], pegs[1])]
       else
         p1,p2,p3 = pegs
         rest = pegs.slice(3) || []
@@ -66,9 +67,9 @@ class Pegs
 
         k = rest.any? ? n/2 : n-1
 
-        hanoi(k, [p3,p1,p2] + rest) +
+        hanoi(k, [p1,p3,p2] + rest) +
         hanoi(n-k, [p1,p2] + rest) +
-        hanoi(k, [p1,p3,p2] + rest)
+        hanoi(k, [p3,p2,p1] + rest)
       end
     end
   end
@@ -89,9 +90,12 @@ ARGF.each_with_index do |line, i|
   end
 end
 
-start = Pegs.new(num_pegs, start_state)
+state = Pegs.new(num_pegs, start_state)
 
-moves = start.moves
+puts state
+puts
+
+moves = state.moves
 
 puts moves.length
 moves.each do |move|
@@ -99,6 +103,4 @@ moves.each do |move|
 end
 
 puts
-puts start
-puts
-puts Pegs.new(num_pegs, end_state)
+puts state
