@@ -49,8 +49,10 @@ class Pegs
     result
   end
   
-  def moves
-    hanoi(@discs, (1..@pegs.length).to_a)
+  def moves(destination=2)
+    pegs = (1..@pegs.length).to_a
+    pegs[1], pegs[destination-1] = pegs[destination-1], pegs[1]
+    hanoi(@discs, pegs)
   end
   
   protected
