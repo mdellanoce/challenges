@@ -66,9 +66,9 @@ class Pegs
 
         k = rest.any? ? n/2 : n-1
 
-        hanoi(k, [p1,p3,p2] + rest) +
+        hanoi(k, [p3,p1,p2] + rest) +
         hanoi(n-k, [p1,p2] + rest) +
-        hanoi(k, [p3,p2,p1] + rest)
+        hanoi(k, [p1,p3,p2] + rest)
       end
     end
   end
