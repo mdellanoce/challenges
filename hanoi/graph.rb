@@ -42,21 +42,32 @@ class HanoiGraph
   end
   
   def shortest_path(from, to)
+    infinity = -1
+    path = {}
     visited = {from => true}
     queue = [from]
-    moves = []
 
     while queue.length > 0 and current = queue.pop and current != to
       @edges[current].each do |a|
-        key = @vertices[a-1].join
+        i = a-1
+        key = @vertices[i].join
         if !visited[key]
           visited[key] = true
           queue.unshift(key)
+          path[key] = i
         end
       end
     end
 
-    moves
+    moves = []
+    rewind = to
+    #while rewind != nil
+    # rewind = path[rewind]
+    #end
+    puts path
+    moves.reverse()
   end
 end
 
+g = HanoiGraph.new 1
+g.shortest_path "1", "3"
