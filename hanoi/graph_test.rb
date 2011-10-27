@@ -7,12 +7,6 @@ class ArrayTest < Test::Unit::TestCase
     assert ![1,2,3].are_all_same?
     assert [1,1,1].are_all_same?
   end
-  
-  def test_rotate
-    assert_equal [], [].rotate
-    assert_equal [2,3,1], [1,2,3].rotate
-    assert_equal [3,1,2], [1,2,3].rotate(-1)
-  end
 end
 
 class VertexTest < Test::Unit::TestCase
