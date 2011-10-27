@@ -1,40 +1,3 @@
-class Vertex
-  attr_reader :state
-  attr_reader :adjacent
-
-  def initialize(*state)
-    @state = state
-    @adjacent = []
-  end
-  
-  def add_adjacent(vertex)
-    @adjacent.push(vertex)
-    vertex.adjacent.push(self)
-    self
-  end
-  
-  def to_s
-    @state.join
-  end
-  
-  def each(&block)
-    visited = {self.to_s => true}
-    queue = [self]
-    
-    while queue.length > 0
-      current = queue.pop
-      block.call(current)
-      current.adjacent.each do |a|
-        key = a.to_s
-        if !visited[key]
-          visited[key] = true
-          queue.unshift(a)
-        end
-      end
-    end
-  end
-end
-
 class Array
   def perfect?
     return false if empty?
@@ -57,20 +20,43 @@ class Array
   end unless method_defined? :rotate!
 end
 
-def hanoi_graph(discs)
-  #How to generalize for N pegs?
-  if discs == 1
-    a = Vertex.new(1)
-    b = Vertex.new(2)
-    c = Vertex.new(3)
-    a.add_adjacent(b)
-    b.add_adjacent(c)
-    c.add_adjacent(a)
-    a
-  else
-    raise "not implemented"
+class HanoiGraph
+  attr_reader :vertices
+  attr_reader :edges
+
+  def initialize(discs)
+    if discs == 1
+      @vertices = [
+        [1],
+        [2],
+        [3]
+      ]
+      @edges = {
+        "1" => [2,3],
+        "2" => [1,3],
+        "3" => [1,2]
+      }
+    else
+      raise "Not Implemented"
+    end
+  end
+  
+  def shortest_path(from, to)
+    visited = {from => true}
+    queue = [from]
+    moves = []
+
+    while queue.length > 0 and current = queue.pop and current != to
+      @edges[current].each do |a|
+        key = @vertices[a-1].join
+        if !visited[key]
+          visited[key] = true
+          queue.unshift(key)
+        end
+      end
+    end
+
+    moves
   end
 end
 
-x = hanoi_graph(1)
-x.each {|a| puts a}
