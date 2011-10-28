@@ -5,6 +5,28 @@ class Array
   end
 end
 
+class State
+  def initialize(pegs, state)
+    @pegs = pegs
+    @state = state
+  end
+  
+  def legal_moves
+    moves = []
+    @state.each_with_index do |peg, disc|
+      #Can't move if smaller disc is on top
+      #Can't move to peg with larger disc on top
+      #Can't move to self
+    end
+    moves
+  end
+  
+  def move(move)
+    #return next state
+    @state.dup
+  end
+end
+
 class Vertex
   attr_reader :state
   
