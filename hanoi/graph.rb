@@ -77,3 +77,18 @@ class Hanoi
     moves.reverse()
   end
 end
+
+if __FILE__ == $0
+  pegs = Integer(ARGF.readline.split[1])
+  start_state = ARGF.readline.split.map {|x| Integer(x)}
+  end_state = ARGF.readline.split.map {|x| Integer(x)}
+
+  from = State.new pegs, start_state
+  to = State.new pegs, end_state
+  moves = Hanoi.shortest_path from, to
+
+  puts moves.length
+  moves.each do |move|
+    puts move.join(" ")
+  end
+end
