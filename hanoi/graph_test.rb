@@ -33,8 +33,9 @@ end
 
 class HanoiTest < Test::Unit::TestCase
   def test_three_pegs_two_discs
-    h = Hanoi.new 3
-    moves = h.shortest_path "1 1", "2 2"
+    from = State.new 3, [1,1]
+    to = State.new 3, [2,2]
+    moves = Hanoi.shortest_path from, to
     assert_equal [[1,3],[1,2],[3,2]], moves
   end
 end

@@ -38,11 +38,7 @@ class State
 end
 
 class Hanoi
-  def initialize(pegs)
-    @pegs = pegs
-  end
-
-  def shortest_path(from, to)
+  def self.shortest_path(from, to)
     path = {}
     visited = {from => true}
     queue = [from]
