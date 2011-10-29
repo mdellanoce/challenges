@@ -46,4 +46,11 @@ class HanoiTest < Test::Unit::TestCase
     moves = Hanoi.shortest_path from, to
     assert_equal [[1,3],[1,2],[3,2]], moves
   end
+
+  def test_four_pegs_six_discs
+    from = State.new 4, [4,2,4,3,1,1]
+    to = State.new 4, [1,1,1,1,1,1]
+    moves = Hanoi.shortest_path from, to
+    assert_equal [[3,1],[4,3],[4,1],[2,1],[3,1]], moves
+  end
 end
