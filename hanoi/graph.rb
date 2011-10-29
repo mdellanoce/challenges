@@ -23,7 +23,8 @@ class State
   
   def move(move)
     next_state = @state.dup
-    #TODO - state transition
+    i = next_state.find_index move[0]
+    next_state[i] = move[1]
     State.new @pegs, next_state
   end
 
