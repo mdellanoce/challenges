@@ -56,4 +56,9 @@ class StateTest < Test::Unit::TestCase
     s = State.new 3, [2,1]
     assert_equal [[2,1],[2,3],[1,3]], s.legal_moves
   end
+
+  def test_four_pegs_six_discs
+    s = State.new 4, [4,2,4,3,1,1]
+    assert_equal [[4,1],[4,2],[4,3],[3,1],[2,1],[2,3]], s.legal_moves
+  end
 end
