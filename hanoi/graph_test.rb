@@ -23,4 +23,10 @@ class StateTest < Test::Unit::TestCase
     s = State.new 4, [4,2,4,3,1,1]
     assert_equal [[4,1],[4,2],[4,3],[2,1],[2,3],[3,1]], s.legal_moves
   end
+
+  def test_move
+    s = State.new 3, [2,1]
+    expected = State.new 3, [2,3]
+    assert_equal expected, s.move([1,3])
+  end
 end
