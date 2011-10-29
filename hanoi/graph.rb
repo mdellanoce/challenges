@@ -37,7 +37,11 @@ class State
   end
 end
 
-class HanoiGraph
+class Hanoi
+  def initialize(pegs)
+    @pegs = pegs
+  end
+
   def shortest_path(from, to)
     path = {}
     visited = {from => true}

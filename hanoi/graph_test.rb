@@ -30,3 +30,11 @@ class StateTest < Test::Unit::TestCase
     assert_equal expected, s.move([1,3])
   end
 end
+
+class HanoiTest < Test::Unit::TestCase
+  def test_three_pegs_two_discs
+    h = Hanoi.new 3
+    moves = h.shortest_path "1 1", "2 2"
+    assert_equal [[1,3],[1,2],[3,2]], moves
+  end
+end
