@@ -1,4 +1,4 @@
-class State
+class HanoiState
   attr_reader :state
 
   def initialize(pegs, state)
@@ -28,7 +28,7 @@ class State
     next_state = @state.dup
     i = next_state.find_index move[0]
     next_state[i] = move[1]
-    State.new @pegs, next_state
+    HanoiState.new @pegs, next_state
   end
 
   def move(to)
@@ -44,13 +44,11 @@ class State
   def ==(other)
     return to_s == other.to_s
   end
-end
 
-class Hanoi
-  def self.shortest_path(from, to)
+  def shortest_path(to)
     path = {}
-    visited = {from.to_s => true}
-    queue = [from]
+    visited = {to_s => true}
+    queue = [self]
 
     while queue.length > 0 and current = queue.pop and current != to
       moves = current.legal_moves
@@ -83,9 +81,9 @@ if __FILE__ == $0
   start_state = ARGF.readline.split.map {|x| Integer(x)}
   end_state = ARGF.readline.split.map {|x| Integer(x)}
 
-  from = State.new pegs, start_state
-  to = State.new pegs, end_state
-  moves = Hanoi.shortest_path from, to
+  from = HanoiState.new pegs, start_state
+  to = HanoiState.new pegs, end_state
+  moves = from.shortest_path to
 
   puts moves.length
   moves.each do |move|
