@@ -1,7 +1,10 @@
 class State
+  attr_reader :state
+
   def initialize(pegs, state)
     @pegs = pegs
     @state = state
+    @str = state.join(" ")
   end
   
   def legal_moves
@@ -21,15 +24,21 @@ class State
     moves
   end
   
-  def move(move)
+  def make_move(move)
     next_state = @state.dup
     i = next_state.find_index move[0]
     next_state[i] = move[1]
     State.new @pegs, next_state
   end
 
+  def move(to)
+    @state.zip(to.state).select do |pair|
+      pair.any? {|p| pair[0] != p}
+    end.first
+  end
+
   def to_s
-    return @state.join(" ")
+    return @str
   end
 
   def ==(other)
@@ -40,27 +49,29 @@ end
 class Hanoi
   def self.shortest_path(from, to)
     path = {}
-    visited = {from => true}
+    visited = {from.to_s => true}
     queue = [from]
 
     while queue.length > 0 and current = queue.pop and current != to
-      @edges[current].each do |a|
-        key = @vertices[a-1].to_s
+      moves = current.legal_moves
+      moves.each do |m|
+        to_visit = current.make_move m
+        key = to_visit.to_s
         if !visited[key]
           visited[key] = true
-          queue.unshift(key)
-          path[key] = current
+          queue.unshift(to_visit)
+          path[to_visit.to_s] = current
         end
       end
     end
 
     moves = []
     rewind = to
-    while path[rewind] != nil
-      v1 = @vertices[@lookup[path[rewind]]]
-      v2 = @vertices[@lookup[rewind]]
-      moves.push(v1.move(v2))
-      rewind = path[rewind]
+    while path[rewind.to_s] != nil
+      s1 = path[rewind.to_s]
+      s2 = rewind
+      moves.push(s1.move(s2))
+      rewind = s1
     end
     raise "Path from #{from} to #{to} not found" if moves.empty?
     moves.reverse()
