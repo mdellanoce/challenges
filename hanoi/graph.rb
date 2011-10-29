@@ -22,8 +22,17 @@ class State
   end
   
   def move(move)
-    #return next state
-    @state.dup
+    next_state = @state.dup
+    #TODO - state transition
+    State.new @pegs, next_state
+  end
+
+  def to_s
+    return @state.join(" ")
+  end
+
+  def ==(other)
+    return to_s == other.to_s
   end
 end
 
