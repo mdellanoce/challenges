@@ -13,17 +13,16 @@ class State
   
   def legal_moves
     moves = []
-    @state.each_with_index do |peg, disc|
+    1.upto(@pegs) do |destination|
+      @state.each_with_index do |source, disc|
       smaller_discs = @state[0...disc]
-      #Can't move if smaller disc is on top
-      if smaller_discs.count(peg) == 0
-        1.upto(@pegs) do |p|
-          #Can't move to peg with smaller disc on top
-          #Can't move to self
-          if p != peg and smaller_discs.count(p) == 0
-            moves.push [peg,p]
-          end
-        end
+        under_smaller_disc = smaller_discs.count(source) > 0
+        move_to_self = destination == source
+        destination_has_smaller_disc = smaller_discs.count(destination) > 0
+
+        moves.push [source,destination] if !move_to_self and
+          !destination_has_smaller_disc and
+          !under_smaller_disc
       end
     end
     moves
