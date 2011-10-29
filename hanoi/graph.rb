@@ -13,8 +13,8 @@ class State
   
   def legal_moves
     moves = []
-    1.upto(@pegs) do |destination|
-      @state.each_with_index do |source, disc|
+    @state.each_with_index do |source, disc|
+      1.upto(@pegs) do |destination|
       smaller_discs = @state[0...disc]
         under_smaller_disc = smaller_discs.count(source) > 0
         move_to_self = destination == source
