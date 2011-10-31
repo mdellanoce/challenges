@@ -20,24 +20,20 @@ def reductions(str)
   reductions
 end
 
-def reduce(str, lookup={})
+def reduce(str)
   smallest = str.length
   potentials = reductions(str)
-puts lookup.inspect
-  return lookup[str] if lookup.has_key?(str)
   
   for reduction in potentials
-    r = reduce(reduction, lookup)
+    r = reduce reduction
     if r < smallest
       smallest = r
     end
 
-    if smallest == 1
+    if smallest <= 2
       break
     end
   end
-
-  lookup[str] = smallest
 
   smallest
 end
@@ -45,6 +41,7 @@ end
 if __FILE__ == $0
   cases = Integer(ARGF.readline)
   cases.times do
-    reduce ARGF.readline
+    min = reduce ARGF.readline
+    puts min
   end
 end
