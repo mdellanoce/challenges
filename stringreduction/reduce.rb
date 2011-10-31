@@ -20,16 +20,26 @@ def reductions(str)
   reductions
 end
 
-def reduce(str)
+def reduce(str, lookup={})
+  smallest = str.length
   potentials = reductions(str)
+puts lookup.inspect
+  return lookup[str] if lookup.has_key?(str)
   
-  if potentials.any?
-    potentials.map do |reduction|
-      reduce reduction
-    end.min
-  else
-    str.length
+  for reduction in potentials
+    r = reduce(reduction, lookup)
+    if r < smallest
+      smallest = r
+    end
+
+    if smallest == 1
+      break
+    end
   end
+
+  lookup[str] = smallest
+
+  smallest
 end
 
 if __FILE__ == $0
