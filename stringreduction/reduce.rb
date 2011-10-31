@@ -1,47 +1,53 @@
-def reductions(str)
-  reductions = []
-  0.upto(str.length-1) do |i|
-    r = i..i+1
-    s = str[r]
-    if s == "ac" or s == "ca"
-      t = str.dup
-      t[r] = "b"
-      reductions.push t
-    elsif s == "bc" or s == "cb"
-      t = str.dup
-      t[r] = "a"
-      reductions.push t
-    elsif s == "ab" or s == "ba"
-      t = str.dup
-      t[r] = "c"
-      reductions.push t
-    end
-  end
-  reductions
-end
+class Reducer
+  def reduce(str)
+    smallest = str.length
+    potentials = reductions(str)
+    
+    for reduction in potentials
+      r = reduce reduction
+      
+      if r < smallest
+        smallest = r
+      end
 
-def reduce(str)
-  smallest = str.length
-  potentials = reductions(str)
+      if smallest <= 2
+        break
+      end
+    end
+
+    smallest
+  end
   
-  for reduction in potentials
-    r = reduce reduction
-    if r < smallest
-      smallest = r
+  protected
+  
+  def reductions(str)
+    reductions = []
+    0.upto(str.length-1) do |i|
+      r = i..i+1
+      s = str[r]
+      if s == "ac" or s == "ca"
+        t = str.dup
+        t[r] = "b"
+        reductions.push t
+      elsif s == "bc" or s == "cb"
+        t = str.dup
+        t[r] = "a"
+        reductions.push t
+      elsif s == "ab" or s == "ba"
+        t = str.dup
+        t[r] = "c"
+        reductions.push t
+      end
     end
-
-    if smallest <= 2
-      break
-    end
+    reductions
   end
-
-  smallest
 end
 
 if __FILE__ == $0
   cases = Integer(ARGF.readline)
+  reducer = Reducer.new
   cases.times do
-    min = reduce ARGF.readline
-    puts min
+    t = ARGF.readline.strip
+    puts reducer.reduce(t)
   end
 end
