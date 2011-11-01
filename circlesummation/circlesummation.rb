@@ -17,3 +17,17 @@ class Array
     sum
   end
 end
+
+if __FILE__ == $0
+  cases = Integer(ARGF.readline)
+  (0...cases).each do |i|
+    puts if i > 0
+  
+    children, rounds = ARGF.readline.split.map {|x| Integer(x)}
+    seed = ARGF.readline.split.map {|x| Integer(x)}
+    (0...children).each do |child|
+      method = (child == children-1 and i == cases-1) ? :print : :puts
+      self.send(method, seed.circle_sum(child, rounds).join(" "))
+    end
+  end
+end
