@@ -26,8 +26,8 @@ if __FILE__ == $0
     children, rounds = ARGF.readline.split.map {|x| Integer(x)}
     seed = ARGF.readline.split.map {|x| Integer(x)}
     (0...children).each do |child|
-      method = (child == children-1 and i == cases-1) ? :print : :puts
-      self.send(method, seed.circle_sum(child, rounds).join(" "))
+      print seed.circle_sum(child, rounds).join(" ")
+      puts if child < children-1 or i < cases-1
     end
   end
 end
