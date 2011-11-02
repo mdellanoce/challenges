@@ -2,6 +2,11 @@ require 'test/unit'
 require './circlesummation'
 
 class CircleSummationTest < Test::Unit::TestCase
+  def test_rotate
+    assert_equal [2,3,1], [1,2,3].rotate
+    assert_equal [3,1,2], [1,2,3].rotate(-1)
+  end
+  
   def test_circle_sum_given1
     seed = [10,20,30,40,50]
     assert_equal [80,20,30,40,50], seed.circle_sum(0, 1)
