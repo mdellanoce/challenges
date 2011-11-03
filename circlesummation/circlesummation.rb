@@ -45,28 +45,17 @@ class Array
   end unless method_defined? :rotate!
 
   def circle_sum(start_index, rounds)
-    i = start_index
-    l = length
-    raise "Expected length greater than 2, but was #{l}" if l < 3
+    start = dup
+    start.rotate! start_index
+    sum = []
     
-    sum = dup
-    rounds.times do
-      n1 = (i-1)%l
-      n2 = (i+1)%l
-      current = i%l
-      
-      sum[current] = sum[current] + sum[n1] + sum[n2]
-      
-      i+=1
+    coefficients = Coefficients.generate(rounds, length)
+    
+    (0...length).each do |i|
+      sum[i] = start.multiply_each(coefficients[i]).inject(:+)
     end
-    sum
-  end
-  
-  def circle_sum_fast(start_index, rounds)
-    #rotate + start index
-    #compute closed form solution for each array component
-    #rotate - start index
-    raise "not implemented"
+    
+    sum.rotate -start_index
   end
 end
 
