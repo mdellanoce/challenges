@@ -1,24 +1,36 @@
 class Coefficients
-  def self.generate(i, len)
-    if i == 0
-      c = [0] * len
-      c[0] = 1
-      c[1] = 1
-      c[c.length-1] = 1
-      c
-    else
-
+  def self.generate(rounds, len)
+    raise "Expected length greater than 2, but was #{len}" if len < 3
+    
+    coefficients = []
+    (0...len).each do |r|
+      row = [0] * len
+      row[r] = 1
+      coefficients.push row
     end
+    
+    i = 0
+    rounds.times do
+      n1 = (i-1)%len
+      n2 = (i+1)%len
+      current = i%len
+      
+      coefficients[current] = coefficients[current].add_each(coefficients[n1]).add_each(coefficients[n2])
+      
+      i+=1
+    end
+    
+    coefficients
   end
 end
 
 class Array
   def add_each(other)
-    dup.zip(other).map {|i,j| i+j}
+    zip(other).map {|i,j| i+j}
   end
 
   def multiply_each(other)
-    dup.zip(other).map {|i,j| i*j}
+    zip(other).map {|i,j| i*j}
   end
 
   #Thank you, backports

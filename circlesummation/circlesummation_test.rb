@@ -3,14 +3,19 @@ require './circlesummation'
 
 class CoefficientsTest < Test::Unit::TestCase
   def test_coefficients
-    assert_equal [1,1,0,1], Coefficients.generate(0, 4)
-    assert_equal [1,2,1,1], Coefficients.generate(1, 4)
-    assert_equal [1,2,2,2], Coefficients.generate(2, 4)
-    assert_equal [2,3,2,4], Coefficients.generate(3, 4)
+    assert_equal [[1,1,0,1],
+                  [1,2,1,1],
+                  [1,2,2,2],
+                  [2,3,2,4]], Coefficients.generate(4, 4)
   end
 end
 
 class CircleSummationTest < Test::Unit::TestCase
+  def test_array_math
+    assert_equal [5,7,9], [1,2,3].add_each([4,5,6])
+    assert_equal [4,10,18], [1,2,3].multiply_each([4,5,6])
+  end
+  
   def test_rotate
     assert_equal [2,3,1], [1,2,3].rotate
     assert_equal [3,1,2], [1,2,3].rotate(-1)
