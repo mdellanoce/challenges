@@ -1,3 +1,17 @@
+class Coefficients
+  def self.generate(i, len)
+    if i == 0
+      c = [0] * len
+      c[0] = 1
+      c[1] = 1
+      c[c.length-1] = 1
+      c
+    else
+
+    end
+  end
+end
+
 class Array
   #Thank you, backports
   def rotate(n=1)
