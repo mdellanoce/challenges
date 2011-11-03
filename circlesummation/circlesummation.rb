@@ -13,6 +13,14 @@ class Coefficients
 end
 
 class Array
+  def add_each(other)
+    dup.zip(other).map {|i,j| i+j}
+  end
+
+  def multiply_each(other)
+    dup.zip(other).map {|i,j| i*j}
+  end
+
   #Thank you, backports
   def rotate(n=1)
     dup.rotate!(n)
