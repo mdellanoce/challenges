@@ -1,38 +1,4 @@
-class Coefficients
-  def self.generate(rounds, len)
-    raise "Expected length greater than 2, but was #{len}" if len < 3
-    
-    coefficients = []
-    (0...len).each do |r|
-      row = [0] * len
-      row[r] = 1
-      coefficients.push row
-    end
-    
-    i = 0
-    rounds.times do
-      n1 = (i-1)%len
-      n2 = (i+1)%len
-      current = i%len
-      
-      coefficients[current] = coefficients[current].add_each(coefficients[n1]).add_each(coefficients[n2])
-      
-      i+=1
-    end
-    
-    coefficients
-  end
-end
-
 class Array
-  def add_each(other)
-    zip(other).map {|i,j| i+j}
-  end
-
-  def multiply_each(other)
-    zip(other).map {|i,j| i*j}
-  end
-
   #Thank you, backports
   def rotate(n=1)
     dup.rotate!(n)
@@ -45,14 +11,19 @@ class Array
   end unless method_defined? :rotate!
 
   def circle_sum(start_index, rounds)
-    start = dup
-    start.rotate! start_index
-    sum = []
+    len = length
+    sum = dup
+    sum.rotate! start_index
     
-    coefficients = Coefficients.generate(rounds, length)
-    
-    (0...length).each do |i|
-      sum[i] = start.multiply_each(coefficients[i]).inject(:+)
+    i = 0
+    rounds.times do
+      n1 = (i-1)%len
+      n2 = (i+1)%len
+      current = i%len
+      
+      sum[current] = sum[current] + sum[n1] + sum[n2]
+      
+      i+=1
     end
     
     sum.rotate -start_index
