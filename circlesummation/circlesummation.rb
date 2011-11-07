@@ -40,7 +40,6 @@ class Array
     l = length
     raise "expected length at least 3, but was #{l}" if l < 3
     return self if rounds == 0
-    iv = Matrix.column_vector(self)
     m = Matrix.build(l, l) do |row, col|
       if row < l-1
         col == row+1 ? 1 : 0
@@ -49,7 +48,14 @@ class Array
       end
     end
     m = m**rounds
-    sum = m*iv
+
+    result = []
+    (0...l).each do |start_index|
+      iv = Matrix.column_vector rotate(start_index)
+      sum = (m*iv).column(0).to_a.rotate(-rounds%l)
+      result.push sum.rotate(-start_index)
+    end
+    result
   end
 end
 
@@ -60,7 +66,8 @@ if __FILE__ == $0
   
     children, rounds = ARGF.readline.split.map {|x| Integer(x)}
     seed = ARGF.readline.split.map {|x| Integer(x)}
-    s = seed.circle_sum(rounds)
+    #s = seed.circle_sum(rounds)
+    s = seed.circle_sum_fast(rounds)
     s.each_with_index do |row, r|
       print row.map {|a| a%1000000007}.join(" ")
       puts if r < rounds-1 or i < cases-1
