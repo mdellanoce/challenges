@@ -1,3 +1,5 @@
+require 'matrix'
+
 class Array
   #Thank you, backports
   def rotate(n=1)
@@ -10,23 +12,44 @@ class Array
     concat(slice!(0, n))
   end unless method_defined? :rotate!
 
-  def circle_sum(start_index, rounds)
+  def circle_sum(rounds)
     len = length
-    sum = dup
-    sum.rotate! start_index
+    result = []
+
+    (0...len).each do |start_index|
+      sum = dup
+      sum.rotate! start_index
     
-    i = 0
-    rounds.times do
-      n1 = (i-1)%len
-      n2 = (i+1)%len
-      current = i%len
-      
-      sum[current] = sum[current] + sum[n1] + sum[n2]
-      
-      i+=1
+      i = 0
+      rounds.times do
+        n1 = (i-1)%len
+        n2 = (i+1)%len
+        current = i%len
+
+        sum[current] = sum[current] + sum[n1] + sum[n2]
+
+        i+=1
+      end
+    
+      result.push sum.rotate(-start_index)
     end
-    
-    sum.rotate -start_index
+    result
+  end
+
+  def circle_sum_fast(rounds)
+    l = length
+    raise "expected length at least 3, but was #{l}" if l < 3
+    return self if rounds == 0
+    iv = Matrix.column_vector(self)
+    m = Matrix.build(l, l) do |row, col|
+      if row < l-1
+        col == row+1 ? 1 : 0
+      else
+        (col > 1 and col < l-1) ? 0 : 1
+      end
+    end
+    m = m**rounds
+    sum = m*iv
   end
 end
 
@@ -37,9 +60,10 @@ if __FILE__ == $0
   
     children, rounds = ARGF.readline.split.map {|x| Integer(x)}
     seed = ARGF.readline.split.map {|x| Integer(x)}
-    (0...children).each do |child|
-      print seed.circle_sum(child, rounds).map {|a| a%1000000007}.join(" ")
-      puts if child < children-1 or i < cases-1
+    s = seed.circle_sum(rounds)
+    s.each_with_index do |row, r|
+      print row.map {|a| a%1000000007}.join(" ")
+      puts if r < rounds-1 or i < cases-1
     end
   end
 end
