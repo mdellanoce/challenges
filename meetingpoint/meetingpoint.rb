@@ -8,7 +8,11 @@ class Point
 	end
 	
 	def distance_to(p)
-		Math.sqrt((x-p.x)**2 + (y-p.y)**2).to_i
+		Math.sqrt((x-p.x)**2 + (y-p.y)**2)
+	end
+	
+	def grid_distance_to(p)
+		[(x-p.x).abs, (y-p.y).abs].max
 	end
 end
 
@@ -20,11 +24,17 @@ class Grid
 	
 	def centroid
 		s = @points.inject {|p,n| Point.new(p.x + n.x, p.y + n.y)}
-		Point.new(s.x/@points.length, s.y/@points.length)
+		s = Point.new(Float(s.x)/@points.length, Float(s.y)/@points.length)
+		@points.min_by {|p| s.distance_to p}
 	end
 	
 	def minimum_travel_time
-		0
+		c = centroid
+		d = 0
+		@points.each do |p|
+			d+= c.grid_distance_to(p)
+		end
+		d
 	end
 end
 
