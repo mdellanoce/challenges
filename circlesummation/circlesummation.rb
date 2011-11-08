@@ -1,5 +1,16 @@
 require 'matrix'
 
+class Matrix
+  MOD = 1000000007
+  
+  alias :old_mult :*
+  
+  def *(m)
+    x = old_mult m
+    x.collect {|e| e%Matrix::MOD}
+  end
+end
+
 class Array
   #Thank you, backports
   def rotate(n=1)
@@ -44,7 +55,7 @@ if __FILE__ == $0
     seed = ARGF.readline.split.map {|x| Integer(x)}
     s = seed.circle_sum_fast(rounds)
     s.each_with_index do |row, r|
-      print row.map {|a| a%1000000007}.join(" ")
+      print row.map {|a| a%Matrix::MOD}.join(" ")
       puts if r < rounds-1 or i < cases-1
     end
   end

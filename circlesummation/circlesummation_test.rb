@@ -22,4 +22,8 @@ class CircleSummationTest < Test::Unit::TestCase
                   [11,21,6],
                   [7,13,24]], seed.circle_sum_fast(4)
   end
+  
+  def test_large
+    (1..50).to_a.circle_sum_fast(10**9)
+  end
 end
