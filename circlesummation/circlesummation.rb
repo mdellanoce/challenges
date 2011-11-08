@@ -12,30 +12,6 @@ class Array
     concat(slice!(0, n))
   end unless method_defined? :rotate!
 
-  def circle_sum(rounds)
-    len = length
-    result = []
-
-    (0...len).each do |start_index|
-      sum = dup
-      sum.rotate! start_index
-    
-      i = 0
-      rounds.times do
-        n1 = (i-1)%len
-        n2 = (i+1)%len
-        current = i%len
-
-        sum[current] = sum[current] + sum[n1] + sum[n2]
-
-        i+=1
-      end
-    
-      result.push sum.rotate(-start_index)
-    end
-    result
-  end
-
   def circle_sum_fast(rounds)
     l = length
     raise "expected length at least 3, but was #{l}" if l < 3
@@ -66,7 +42,6 @@ if __FILE__ == $0
   
     children, rounds = ARGF.readline.split.map {|x| Integer(x)}
     seed = ARGF.readline.split.map {|x| Integer(x)}
-    #s = seed.circle_sum(rounds)
     s = seed.circle_sum_fast(rounds)
     s.each_with_index do |row, r|
       print row.map {|a| a%1000000007}.join(" ")
