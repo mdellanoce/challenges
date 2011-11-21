@@ -3,27 +3,27 @@
 
 #define MAX 50
 
-typedef unsigned long ulong;
+typedef long long longlong;
 
 typedef struct {
   int size;
-  ulong data[MAX];
+  longlong data[MAX];
 } vector;
 
 typedef struct {
   int size;
-  ulong data[MAX*MAX];
+  longlong data[MAX*MAX];
 } matrix;
 
-const ulong MOD = 1000000007;
+const longlong MOD = 1000000007;
 
 void print_vector(vector* v)
 {
   int i, s=v->size;
-  ulong* d=v->data;
+  longlong* d=v->data;
   for (i=0; i < s; ++i)
   {
-    printf("%lu", d[i]);
+    printf("%lld", d[i]);
     if (i < s-1)
     {
       printf(" ");
@@ -34,7 +34,7 @@ void print_vector(vector* v)
 void copy_matrix(matrix* source, matrix* dest)
 {
   int i,s=source->size*source->size;
-  ulong *src=source->data,*dst=dest->data;
+  longlong *src=source->data,*dst=dest->data;
   for (i=0; i<s; ++i)
   {
     dst[i] = src[i];
@@ -44,7 +44,7 @@ void copy_matrix(matrix* source, matrix* dest)
 void init_companion_matrix(matrix* m)
 {
   int r, c, i, s=m->size;
-  ulong* d=m->data;
+  longlong* d=m->data;
   for (r=0,i=0; r<s; ++r)
   {
     i = r*s;
@@ -65,7 +65,7 @@ void init_companion_matrix(matrix* m)
 void vector_matrix_multiply(vector* v, matrix* m, vector* result)
 {
   int i,j,s=v->size,a;
-  ulong *vd=v->data,*md=m->data,*r=result->data;
+  longlong *vd=v->data,*md=m->data,*r=result->data;
 
   //Make sure the result vector is zeroed out...
   for (i=0; i<s; ++i)
@@ -86,7 +86,7 @@ void vector_matrix_multiply(vector* v, matrix* m, vector* result)
 void matrix_multiply(matrix* m1, matrix* m2, matrix* result)
 {
   int i,j,k,s=m1->size,a;
-  ulong *d1=m1->data,*d2=m2->data,*r=result->data;
+  longlong *d1=m1->data,*d2=m2->data,*r=result->data;
 
   //Make sure the result matrix is zeroed out...
   for (i=0; i<s*s; ++i)
@@ -134,7 +134,7 @@ void matrix_pow(matrix* m, int p, matrix* result)
 void rotate_vector(vector* v, int amount, vector* result)
 {
   int i,s=v->size,a;
-  ulong *d=v->data,*r=result->data;
+  longlong *d=v->data,*r=result->data;
   for (i=0,a=s-amount; i<s; ++i,++a)
   {
     r[a%s] = d[i];
@@ -169,7 +169,7 @@ int main()
 
     for (c=0; c<children; ++c)
     {
-      scanf("%lu", &circle[0].data[c]);
+      scanf("%lld", &circle[0].data[c]);
     }
 
     for (i=1; i<children; ++i)
