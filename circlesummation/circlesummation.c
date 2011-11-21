@@ -113,13 +113,22 @@ void matrix_pow(matrix* m, int p, matrix* result)
   matrix w;
   w.size = m->size;
   copy_matrix(m, &w);
-  //TODO - use squaring...
-  for (i=p; i>1; --i)
+  if (p==1)
   {
-    matrix_multiply(m, &w, result);
-    copy_matrix(result, &w);
+    copy_matrix(&w, result);
   }
-  copy_matrix(&w, result);
+  else if(p%2==1)
+  {
+    matrix_pow(m, p-1, result);
+    copy_matrix(result, &w);
+    matrix_multiply(m, &w, result);
+  }
+  else
+  {
+    matrix_pow(m, p/2, result);
+    copy_matrix(result, &w);
+    matrix_multiply(&w, &w, result);
+  }
 }
 
 void rotate_vector(vector* v, int amount, vector* result)
