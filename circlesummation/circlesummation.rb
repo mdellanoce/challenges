@@ -56,7 +56,7 @@ if __FILE__ == $0
     s = seed.circle_sum_fast(rounds)
     s.each_with_index do |row, r|
       print row.map {|a| a%Matrix::MOD}.join(" ")
-      puts if r < rounds-1 or i < cases-1
+      puts if r < children-1 or i < cases-1
     end
   end
 end
