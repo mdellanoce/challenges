@@ -1,0 +1,5 @@
+1. write algorithm to generate nim values for grundy's game up to 50
+2. modify algorithm to generate nim values for stone piles game up to 50
+3. hard code nim values for stone piles as array, or something
+
+... figure out how to use nim values to solve game
