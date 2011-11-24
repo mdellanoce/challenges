@@ -3,6 +3,7 @@ require './permutationgame'
 
 class PositionTest < Test::Unit::TestCase
   def test_is_winning
+    assert Position.new([3]).is_winning?
     assert Position.new([1,2,3,4]).is_winning?
     assert !Position.new([2,1,3,4,5]).is_winning?
   end
