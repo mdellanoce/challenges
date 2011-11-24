@@ -1,9 +1,20 @@
-require 'pp'
+class Position
+  def initialize(state)
+    @state = state
+  end
 
-pp [1,2,3].permutation.to_a
-puts
-puts
-pp [1,2,3,4].permutation.to_a
-puts
-puts
-pp [1,2,3,4,5].permutation.to_a
+  def to_s
+    @state.join " "
+  end
+end
+
+if $0 == __FILE__
+  t = Integer(ARGF.readline)
+  t.times do
+    n = Integer(ARGF.readline)
+    state = ARGF.readline.split.map {|a| Integer(a)}.to_a
+
+    p = Position.new state
+    puts p.to_s
+  end
+end
