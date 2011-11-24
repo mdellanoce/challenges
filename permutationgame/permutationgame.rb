@@ -7,19 +7,30 @@ class Position
     @state.join " "
   end
 
-  def is_winning?
-    if @is_winning == nil
-      @is_winning = (0...@state.length-1).all? do |i|
+  def is_increasing?
+    return true if @state.length == 1
+    if @is_increasing == nil
+      @is_increasing = (0...@state.length-1).all? do |i|
         @state[i] < @state[i+1]
       end
     end
-    @is_winning
+    @is_increasing
+  end
+
+  def is_decreasing?
+    return false if @state.length == 1
+    if @is_decreasing == nil
+      @is_decreasing = (0...@state.length-1).all? do |i|
+        @state[i] > @state[i+1]
+      end
+    end
+    @is_decreasing
   end
 
   def next_positions
     if !@positions
       @positions = []
-        if !is_winning?
+        if !is_increasing?
         (0...@state.length).each do |i|
           s = @state.dup
           s.delete_at i
