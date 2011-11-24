@@ -30,7 +30,7 @@ class Position
   def next_positions
     if !@positions
       @positions = []
-        if !is_increasing?
+      if !is_increasing?
         (0...@state.length).each do |i|
           s = @state.dup
           s.delete_at i
@@ -39,6 +39,20 @@ class Position
       end
     end
     @positions
+  end
+
+  def moves
+    m = []
+    next_positions.each_with_index do |p, i|
+      if p.next_positions.any?
+        p.moves.each do |a|
+          m.push([@state[i]] + a)
+        end
+      else
+        m.push [@state[i]]
+      end
+    end
+    m
   end
 end
 
@@ -50,5 +64,9 @@ if $0 == __FILE__
 
     p = Position.new state
     puts p.to_s
+    puts "---------------------"
+    p.moves.each do |m|
+      puts m.join(",")
+    end
   end
 end
