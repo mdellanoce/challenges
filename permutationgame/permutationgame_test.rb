@@ -14,6 +14,11 @@ class PositionTest < Test::Unit::TestCase
     assert !Position.new([3]).is_decreasing?
   end
 
+  def test_remaining_moves
+    p = Position.new [4,3,2,1]
+    assert_equal 3, p.remaining_moves
+  end
+
   def test_next_positions
     p = Position.new [1,3,2,4]
     next_positions = p.next_positions.map {|x| x.to_s}.to_a
