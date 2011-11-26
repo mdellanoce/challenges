@@ -4,7 +4,7 @@ class Position
   end
 
   def to_s
-    @state.join " "
+    @str ||= @state.join " "
   end
 
   def is_increasing?
@@ -33,7 +33,8 @@ class Position
       if !is_increasing?
         (0...@state.length).each do |i|
           s = @state.dup
-          s.delete_at i
+          r = s.delete_at i
+          s.map! {|x| x>r ? x-1 : x}
           @positions.push Position.new(s)
         end
       end
@@ -45,24 +46,11 @@ class Position
     @state.length - 1
   end
 
-  def moves(count=1)
-    #First, try to find a move that guarantees a win
-    next_positions.each_with_index do |p, i|
-      if p.is_increasing?
-        #if there is a move that results in a winning position, we should take it
-        puts @state[i]
-        break
-      elsif p.is_decreasing? and p.remaining_moves.odd? != count.odd?
-        #if there is a move that forces a winning position for us, we should take it
-        puts @state[i]
-        count += p.remaining_moves
-        break
-      end
+  def moves
+    np = next_positions
+
+    np.each_with_index do |p, i|
     end
-
-    #TODO - Search next positions for a potentially advantageous position
-
-    count
   end
 end
 
@@ -73,7 +61,6 @@ if $0 == __FILE__
     state = ARGF.readline.split.map {|a| Integer(a)}.to_a
 
     p = Position.new state
-    puts p.to_s
     m = p.moves
     if m.odd?
       puts "ALICE"

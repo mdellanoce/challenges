@@ -22,7 +22,7 @@ class PositionTest < Test::Unit::TestCase
   def test_next_positions
     p = Position.new [1,3,2,4]
     next_positions = p.next_positions.map {|x| x.to_s}.to_a
-    assert_equal ["3 2 4", "1 2 4", "1 3 4", "1 3 2"], next_positions
+    assert_equal ["2 1 3", "1 2 3", "1 2 3", "1 3 2"], next_positions
 
     p = Position.new [1,2,3,4]
     next_positions = p.next_positions.map {|x| x.to_s}.to_a
