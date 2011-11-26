@@ -21,9 +21,26 @@ class Array
     m = 0
     sort.each do |i|
       break if m < i
-      m+=1
+      m+=1 if m == i
     end
     m
+  end
+end
+
+class Grundy
+  def self.values(n)
+    n += 1
+    @@lookup ||= [0,0,0]
+
+    if n > @@lookup.length
+      @@lookup.length.upto(n).each do |i|
+        @@lookup[i] = i.grundy_moves.map do |move|
+          move.map {|m| @@lookup[m]}.inject(:^)
+        end.mex
+      end
+    end
+
+    @@lookup.slice(0,n)
   end
 end
 
