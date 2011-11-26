@@ -13,6 +13,17 @@ def grundify(n)
 	positions
 end
 
+class Array
+  def mex
+    m = 0
+    sort.each do |i|
+      break if m < i
+      m+=1
+    end
+    m
+  end
+end
+
 if $0 == __FILE__
 	pp grundify(Integer(ARGF.readline))
 end
