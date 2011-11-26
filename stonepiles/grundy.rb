@@ -45,5 +45,5 @@ class Grundy
 end
 
 if $0 == __FILE__
-	pp Integer(ARGF.readline).grundy_moves
+	pp Grundy.values Integer(ARGF.readline)
 end
