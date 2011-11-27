@@ -2,6 +2,11 @@ require 'test/unit'
 require './grundy'
 
 class ArrayTest < Test::Unit::TestCase
+  def test_uniq
+    assert [1,2,3].uniq?
+    assert ![1,2,3,1].uniq?
+  end
+
   def test_mex
     assert_equal 0, [3,2,1].mex
     assert_equal 1, [3,2,0].mex
@@ -20,6 +25,16 @@ class IntegerTest < Test::Unit::TestCase
     assert_equal [[1,4],[2,3]], 5.grundy_moves
     assert_equal [[1,5],[2,4]], 6.grundy_moves
     assert_equal [[1,6],[2,5],[3,4]], 7.grundy_moves
+  end
+
+  def test_stone_pile_moves
+    assert_equal [], 1.stone_pile_moves
+    assert_equal [], 2.stone_pile_moves
+    assert_equal [[1,2]], 3.stone_pile_moves
+    assert_equal [[1,3]], 4.stone_pile_moves
+    assert_equal [[1,4],[2,3]], 5.stone_pile_moves
+    assert_equal [[1,5],[2,4],[1,2,3]], 6.stone_pile_moves
+    assert_equal [[1,6],[2,5],[3,4],[1,2,4]], 7.stone_pile_moves
   end
 end
 
