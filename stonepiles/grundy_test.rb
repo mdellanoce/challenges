@@ -35,6 +35,8 @@ class IntegerTest < Test::Unit::TestCase
     assert_equal [[1,4],[2,3]], 5.stone_pile_moves
     assert_equal [[1,5],[2,4],[1,2,3]], 6.stone_pile_moves
     assert_equal [[1,6],[2,5],[3,4],[1,2,4]], 7.stone_pile_moves
+    assert_equal [[1,7],[2,6],[3,5],[1,2,5],[1,3,4]], 8.stone_pile_moves
+    assert_equal [[1,8],[2,7],[3,6],[4,5],[1,2,6],[1,3,5],[2,3,4]], 9.stone_pile_moves
   end
 end
 
