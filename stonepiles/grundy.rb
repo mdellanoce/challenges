@@ -1,5 +1,3 @@
-require 'pp'
-
 class Integer
   def grundy_moves
     n = self
@@ -16,7 +14,7 @@ class Integer
   end
 
   def stone_pile_moves
-    @@moves = [[],[],[]]
+    @@moves = eval(File.open('moves.txt', 'rb').read) || [[],[],[]]
 
     if self >= @@moves.length
       g = grundy_moves
@@ -72,6 +70,5 @@ end
 
 if $0 == __FILE__
 	i = Integer(ARGF.readline)
-	#pp i.stone_pile_moves
-  pp Grundy.values(i)
+  puts Grundy.values(i).inspect
 end
