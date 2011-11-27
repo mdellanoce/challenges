@@ -16,19 +16,25 @@ class Integer
   end
 
   def stone_pile_moves
-    g = grundy_moves
-    n = []
-    g.each do |move|
-      move.each_with_index do |m,i|
-        m.stone_pile_moves.each do |s|
-          t = move.dup
-          t[i] = s
-          t.flatten!.sort!
-          n.push t if t.uniq?
+    @@moves = [[],[],[]]
+
+    if self >= @@moves.length
+      g = grundy_moves
+      n = []
+      g.each do |move|
+        move.each_with_index do |m,i|
+          m.stone_pile_moves.each do |s|
+            t = move.dup
+            t[i] = s
+            t.flatten!.sort!
+            n.push t if t.uniq?
+          end
         end
       end
+      @@moves[self] = (g + n).uniq
     end
-    (g + n).uniq
+
+    @@moves[self]
   end
 end
 
@@ -54,7 +60,7 @@ class Grundy
 
     if n > @@lookup.length
       @@lookup.length.upto(n).each do |i|
-        @@lookup[i] = i.grundy_moves.map do |move|
+        @@lookup[i] = i.stone_pile_moves.map do |move|
           move.map {|m| @@lookup[m]}.inject(:^)
         end.mex
       end
@@ -65,5 +71,7 @@ class Grundy
 end
 
 if $0 == __FILE__
-	pp Grundy.values Integer(ARGF.readline)
+	i = Integer(ARGF.readline)
+	#pp i.stone_pile_moves
+  pp Grundy.values(i)
 end

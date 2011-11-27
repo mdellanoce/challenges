@@ -42,8 +42,8 @@ end
 
 class GrundyTest < Test::Unit::TestCase
   def test_values
-    assert_equal [0,0,0,1,0,2,1,0,2,1,0,2], Grundy.values(11)
-    assert_equal [0,0,0,1,0,2,1,0,2,1,0,2,1,3,2,1], Grundy.values(15)
+    assert_equal [0,0,0,1,0,2,3,4,0,5,6,7], Grundy.values(11)
+    assert_equal [0,0,0,1,0,2,3,4,0,5,6,7,8,9,10,11], Grundy.values(15)
     assert_equal [0,0,0,1,0,2], Grundy.values(5)
   end
 end
