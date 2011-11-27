@@ -14,7 +14,13 @@ class Integer
   end
 
   def stone_pile_moves
-    @@moves = eval(File.open('moves.txt', 'rb').read) || [[],[],[]]
+    if !defined? @@moves
+      if File.exists? 'moves.txt'
+        @@moves = eval(File.open('moves.txt', 'rb').read)
+      else
+        @@moves = [[],[],[]]
+      end
+    end
 
     if self >= @@moves.length
       g = grundy_moves
