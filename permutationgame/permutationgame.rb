@@ -48,7 +48,7 @@ class Position
 
   def minimax
     ([-99999] + next_positions.map do |p|
-      return @state.length-1 if p.is_increasing?
+      return remaining_moves if p.is_increasing?
       -p.minimax
     end.to_a).max
   end
@@ -61,7 +61,6 @@ if $0 == __FILE__
     state = ARGF.readline.split.map {|a| Integer(a)}.to_a
 
     p = Position.new state
-    puts p.to_s
     m = p.minimax
     puts m > 0 ? "ALICE" : "BOB"
   end
