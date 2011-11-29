@@ -55,6 +55,9 @@ class Position
   end
 
   def minimax
+    @@cache ||= {}
+    return @@cache[to_s] if @@cache.has_key? to_s
+
     values = ([-99999] + next_positions.map do |p|
       if p.is_winning?
         remaining_moves
@@ -65,7 +68,9 @@ class Position
       end
     end.to_a)
 
-    values.max
+    score = values.max
+    @@cache[to_s] = score
+    score
   end
 end
 
