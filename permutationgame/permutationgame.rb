@@ -27,6 +27,14 @@ class Position
     @is_decreasing
   end
 
+  def is_winning?
+    is_increasing? or (is_decreasing? and @state.length.even?)
+  end
+
+  def is_losing?
+    is_decreasing? and @state.length.odd?
+  end
+
   def next_positions
     if !@positions
       @positions = []

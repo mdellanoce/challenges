@@ -14,6 +14,17 @@ class PositionTest < Test::Unit::TestCase
     assert !Position.new([3]).is_decreasing?
   end
 
+  def test_is_winning
+    assert Position.new([1,2,3]).is_winning?
+    assert Position.new([4,3,2,1]).is_winning?
+    assert !Position.new([1,3,2]).is_winning?
+  end
+
+  def test_is_losing
+    assert Position.new([3,2,1]).is_losing?
+    assert !Position.new([1,3,2]).is_losing?
+  end
+
   def test_remaining_moves
     p = Position.new [4,3,2,1]
     assert_equal 3, p.remaining_moves
