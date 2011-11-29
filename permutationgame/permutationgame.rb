@@ -28,11 +28,11 @@ class Position
   end
 
   def is_winning?
-    is_increasing? or (is_decreasing? and @state.length.even?)
+    is_increasing? or (is_decreasing? and remaining_moves.even?)
   end
 
   def is_losing?
-    is_decreasing? and @state.length.odd?
+    is_decreasing? and remaining_moves.odd?
   end
 
   def next_positions
@@ -56,8 +56,10 @@ class Position
 
   def minimax
     values = ([-99999] + next_positions.map do |p|
-      if p.is_increasing?
+      if p.is_winning?
         remaining_moves
+      elsif p.is_losing?
+        -remaining_moves
       else
         -p.minimax
       end

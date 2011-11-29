@@ -15,13 +15,13 @@ class PositionTest < Test::Unit::TestCase
   end
 
   def test_is_winning
-    assert Position.new([1,2,3]).is_winning?
-    assert Position.new([4,3,2,1]).is_winning?
+    assert Position.new([1,2,3,4]).is_winning?
+    assert Position.new([4,3,2]).is_winning?
     assert !Position.new([1,3,2]).is_winning?
   end
 
   def test_is_losing
-    assert Position.new([3,2,1]).is_losing?
+    assert Position.new([4,3,2,1]).is_losing?
     assert !Position.new([1,3,2]).is_losing?
   end
 
