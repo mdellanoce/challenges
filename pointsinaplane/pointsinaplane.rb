@@ -10,6 +10,10 @@ class Point
   def slope(point)
     Rational(point.y - @y, point.x - @x)
   end
+
+  def ==(point)
+    @x == point.x and @y == point.y
+  end
 end
 
 class Plane
@@ -19,6 +23,16 @@ class Plane
 
   def add_point(x, y)
     @points.push Point.new(x,y)
+  end
+
+  def minimum_moves
+    @points.each do |i|
+      @points.each do |j|
+        if i != j
+
+        end
+      end
+    end
   end
 end
 
