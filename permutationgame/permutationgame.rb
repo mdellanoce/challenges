@@ -55,10 +55,15 @@ class Position
   end
 
   def minimax
-    ([-99999] + next_positions.map do |p|
-      return remaining_moves if p.is_increasing?
-      -p.minimax
-    end.to_a).max
+    values = ([-99999] + next_positions.map do |p|
+      if p.is_increasing?
+        remaining_moves
+      else
+        -p.minimax
+      end
+    end.to_a)
+
+    values.max
   end
 end
 
