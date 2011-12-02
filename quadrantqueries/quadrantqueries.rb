@@ -32,6 +32,72 @@ class Plane
   end
 end
 
+class FastPlane
+  def initialize(size)
+    @quadrants = [
+      Array.new(size, 0),
+      Array.new(size, 0),
+      Array.new(size, 0),
+      Array.new(size, 0)
+    ]
+  end
+
+  def add_point(x, y)
+    @point ||= 0
+    quadrant = 0 if x > 0 and y > 0
+    quadrant = 1 if x < 0 and y > 0
+    quadrant = 2 if x < 0 and y < 0
+    quadrant = 3 if x > 0 and y < 0
+    @quadrants[quadrant].fenwick_inc @point, 1
+    @point+=1
+  end
+
+  def reflect_x(i, j)
+    i-=1
+    j-=1
+  end
+
+  def reflect_y(i, j)
+    i-=1
+    j-=1
+  end
+
+  def count(i, j)
+    i-=1
+    j-=1
+    @quadrants.map {|q| q.fenwick_count(i,j)}.to_a
+  end
+end
+
+class Array
+  def fenwick_count(i,j)
+    if i == 0
+      s = 0
+      while j>=0 do
+        s += self[j]
+        j = (j & (j+1)) - 1
+      end
+      s
+    else
+      fenwick_count(0,j)-fenwick_count(0,i-1)
+    end
+  end
+
+  def fenwick_inc(k, amount)
+    while k<length do
+      self[k]+=amount
+      k|=k+1
+    end
+  end
+
+  def fenwick_dec(k, amount)
+    while k<length do
+      self[k]-=amount
+      k|=k+1
+    end
+  end
+end
+
 if __FILE__ == $0
   plane = Plane.new
 
