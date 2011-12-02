@@ -1,3 +1,36 @@
+class Array
+  def longest_increasing
+    longest :<
+  end
+
+  def longest_decreasing
+    longest :>
+  end
+
+  protected
+
+  def longest(cmp)
+    max = 1
+    dp = [1]
+
+    1.upto(length-1).each do |i|
+      dp[i] = 1
+
+      (i-1).downto(0).each do |j|
+        if dp[j] + 1 > dp[i] and self[j].send(cmp, self[i])
+          dp[i] = dp[j] + 1
+        end
+      end
+
+      if dp[i] > max
+        max = dp[i]
+      end
+    end
+
+    max
+  end
+end
+
 class Position
   def initialize(state)
     @state = state
@@ -5,6 +38,10 @@ class Position
 
   def to_s
     @str ||= @state.join " "
+  end
+
+  def debug
+    "I:#{@state.longest_increasing},D:#{@state.longest_decreasing}"
   end
 
   def is_increasing?
@@ -82,6 +119,6 @@ if $0 == __FILE__
 
     p = Position.new state
     m = p.minimax
-    puts m > 0 ? "ALICE" : "BOB"
+    puts m > 0 ? "#{p.to_s}: #{p.debug} => ALICE" : "#{p.to_s}: #{p.debug} => BOB"
   end
 end

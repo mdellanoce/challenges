@@ -1,0 +1,20 @@
+Length 4
+------------------------
+2,2 BOB
+
+Length 6
+------------------------
+2,3 BOB
+3,2 BOB
+4,2 BOB
+
+Length 8
+------------------------
+6,2 BOB
+5,2 BOB
+4,3 BOB
+2,4 BOB
+4,2 BOB
+3,3 BOB
+6,3 MIXED (mostly ALICE, 8 BOB)
+5,3 MIXED (mostly ALICE, 174 BOB)
