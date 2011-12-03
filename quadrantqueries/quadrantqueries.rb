@@ -69,6 +69,41 @@ class FastPlane
   end
 end
 
+class SegmentTree
+  def initialize(size)
+    @size = size
+    @tree = []
+  end
+
+  def count(i, j)
+  end
+
+  def add(k)
+    i = 0
+    j = @size-1
+    node = 0
+
+    @tree[node] ||= 0
+    @tree[node] += 1
+
+    while i!=j do
+      mid = (i+j)/2
+      if k<=mid
+        node=2*node
+        j=mid
+      else
+        node=2*node+1
+        i=mid+1
+      end
+      @tree[node] ||= 0
+      @tree[node] += 1
+    end
+  end
+
+  def swap(other, i, j)
+  end
+end
+
 class Array
   def fenwick_count(i,j)
     if i == 0
