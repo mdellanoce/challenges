@@ -1,33 +1,34 @@
 class Array
-  def longest_increasing
-    longest :<
-  end
-
-  def longest_decreasing
-    longest :>
-  end
-
-  protected
-
-  def longest(cmp)
-    max = 1
-    dp = [1]
+  def longest
+    maxi = 1
+    maxd = 1
+    li = [1]
+    ld = [1]
 
     1.upto(length-1).each do |i|
-      dp[i] = 1
+      li[i] = 1
+      ld[i] = 1
 
       (i-1).downto(0).each do |j|
-        if dp[j] + 1 > dp[i] and self[j].send(cmp, self[i])
-          dp[i] = dp[j] + 1
+        if li[j] + 1 > li[i] and self[j] < self[i]
+          li[i] = li[j] + 1
+        end
+
+        if ld[j] + 1 > ld[i] and self[j] > self[i]
+          ld[i] = ld[j] + 1
         end
       end
 
-      if dp[i] > max
-        max = dp[i]
+      if li[i] > maxi
+        maxi = li[i]
+      end
+
+      if ld[i] > maxd
+        maxd = ld[i]
       end
     end
 
-    max
+    [maxi, maxd]
   end
 end
 
@@ -41,7 +42,8 @@ class Position
   end
 
   def debug
-    "I:#{@state.longest_increasing},D:#{@state.longest_decreasing}"
+    @longest ||= @state.longest
+    "I:#{@longest[0]},D:#{@longest[1]}"
   end
 
   def is_increasing?

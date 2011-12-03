@@ -1,6 +1,13 @@
 require 'test/unit'
 require './permutationgame'
 
+class ArrayTest < Test::Unit::TestCase
+  def test_longest
+    assert_equal [4,2], [1,2,3,6,5].longest
+    assert_equal [2,3], [4,3,1,2].longest
+  end
+end
+
 class PositionTest < Test::Unit::TestCase
   def test_is_increasing
     assert Position.new([3]).is_increasing?
