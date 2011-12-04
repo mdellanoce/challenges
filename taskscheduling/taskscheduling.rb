@@ -6,6 +6,12 @@ class Task
     @deadline = deadline
     @time = time
   end
+
+  def <=>(other)
+    a = deadline <=> other.deadline
+    return a if a != 0
+    time <=> other.time
+  end
 end
 
 if $0 == __FILE__
@@ -18,7 +24,7 @@ if $0 == __FILE__
   end
 
   (0...t).each do |i|
-    i_tasks = tasks[0..i].sort! {|t1,t2| t1.deadline <=> t2.deadline}
+    i_tasks = tasks[0..i].sort!
 
     time = 0
     overshoot = i_tasks.map do |j|
