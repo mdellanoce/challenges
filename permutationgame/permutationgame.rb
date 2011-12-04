@@ -97,15 +97,23 @@ class Position
     @@cache ||= {}
     return @@cache[to_s] if @@cache.has_key? to_s
 
-    values = ([-99999] + next_positions.map do |p|
+    values = [-99999]
+    next_positions.each do |p|
       if p.is_winning?
-        remaining_moves
-      elsif p.is_losing?
-        -remaining_moves
-      else
-        -p.minimax
+        values.push remaining_moves
+        break
       end
-    end.to_a)
+    end
+
+    if values.length == 1
+      values += (next_positions.map do |p|
+        if p.is_losing?
+          -remaining_moves
+        else
+          -p.minimax
+        end
+      end.to_a)
+    end
 
     score = values.max
     @@cache[to_s] = score
@@ -121,6 +129,7 @@ if $0 == __FILE__
 
     p = Position.new state
     m = p.minimax
-    puts m > 0 ? "#{p.to_s}: #{p.debug} => ALICE" : "#{p.to_s}: #{p.debug} => BOB"
+    #puts m > 0 ? "#{p.to_s}: #{p.debug} => ALICE" : "#{p.to_s}: #{p.debug} => BOB"
+    puts m > 0 ? "ALICE" : "BOB"
   end
 end
