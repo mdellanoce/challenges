@@ -23,7 +23,7 @@ if $0 == __FILE__
     time = 0
     overshoot = i_tasks.map do |j|
       time += j.time
-      time - j.deadline
+      [time - j.deadline, 0].max
     end.max
 
     puts overshoot
