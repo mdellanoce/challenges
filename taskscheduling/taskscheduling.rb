@@ -16,6 +16,38 @@ class Task
   end
 end
 
+class PriorityQueue
+  def initialize
+    @heap = []
+  end
+
+  def push(val)
+    @heap.push val
+    i = @heap.length-1
+    while i>0 do
+      parent = (i-1)/2
+      if (@heap[i] <=> @heap[parent]) < 0
+        @heap[i],@heap[parent] = @heap[parent],@heap[i]
+      end
+      i=parent
+    end
+  end
+
+  def pop
+    val = min
+    #TODO
+    val
+  end
+
+  def min
+    @heap[0]
+  end
+
+  def length
+    @heap.length
+  end
+end
+
 if $0 == __FILE__
   tasks = Containers::RubyRBTreeMap.new
 
