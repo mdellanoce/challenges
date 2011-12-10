@@ -1,28 +1,29 @@
 class String
   def longest_common_prefix(other)
-    min = [length, other.length, max].compact.min
-    min.times do |i|
-      return slice(0, i) if self[i] != other[i]
+    lcp = 0
+    chars.each_with_index do |c,i|
+      if c != other[i]
+        break
+      end
+      lcp+=1
     end
-    return slice(0, min)
+    lcp
   end
 
   def sum_of_suffix_prefixes
     l = length
-
-    suffixes = Array.new(l)
-    l.times do |i|
-      suffixes[i] = slice(i, l)
+    s = l
+    1.upto(l) do |i|
+      s += longest_common_prefix(slice(i, l))
     end
-    
-    suffixes.sort!
+    s
   end
 end
 
 if $0 == __FILE__
   t = Integer(ARGF.readline)
   t.times do
-    s = ARGF.readline
+    s = ARGF.readline.chomp
     puts s.sum_of_suffix_prefixes
   end
 end
