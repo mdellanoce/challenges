@@ -98,8 +98,12 @@ if $0 == __FILE__
     state = ARGF.readline.split.map {|a| Integer(a)}.to_a
 
     p = Position.new state
-    m = p.minimax
-    puts m > 0 ? "#{p.to_s} => ALICE" : "#{p.to_s} => BOB"
-    #puts m > 0 ? "ALICE" : "BOB"
+    debug = true
+    m = p.minimax(debug)
+    if debug
+      puts m > 0 ? "#{p.to_s} => ALICE" : "#{p.to_s} => BOB"
+    else
+      puts m > 0 ? "ALICE" : "BOB"
+    end
   end
 end
