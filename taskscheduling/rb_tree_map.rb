@@ -114,68 +114,9 @@ class RubyRBTreeMap
     @root.nil? ? nil : max_recursive(@root)
   end
   
-  # Deletes the item and key if it's found, and returns the item. Returns nil
-  # if key is not present.
-  #
-  # !!! Warning !!! There is a currently a bug in the delete method that occurs rarely
-  # but often enough, especially in large datasets. It is currently under investigation.
-  #
-  # Complexity: O(log n)
-  #
-  #   map = TreeMap.new
-  #   map.push("MA", "Massachusetts")
-  #   map.push("GA", "Georgia")
-  #   map.min_key #=> "GA"
-  def delete(key)
-    result = nil
-    if @root
-      @root, result = delete_recursive(@root, key)
-      @root.color = :black if @root
-    end
-    result
-  end
-  
   # Returns true if the tree is empty, false otherwise
   def empty?
     @root.nil?
-  end
-  
-  # Deletes the item with the smallest key and returns the item. Returns nil
-  # if key is not present.
-  #
-  # Complexity: O(log n)
-  #
-  #   map = TreeMap.new
-  #   map.push("MA", "Massachusetts")
-  #   map.push("GA", "Georgia")
-  #   map.delete_min #=> "Massachusetts"
-  #   map.size #=> 1
-  def delete_min
-    result = nil
-    if @root
-      @root, result = delete_min_recursive(@root)
-      @root.color = :black if @root
-    end
-    result
-  end
-  
-  # Deletes the item with the smallest key and returns the item. Returns nil
-  # if key is not present.
-  #
-  # Complexity: O(log n)
-  #
-  #   map = TreeMap.new
-  #   map.push("MA", "Massachusetts")
-  #   map.push("GA", "Georgia")
-  #   map.delete_max #=> "Georgia"
-  #   map.size #=> 1
-  def delete_max
-    result = nil
-    if @root
-      @root, result = delete_max_recursive(@root)
-      @root.color = :black if @root
-    end
-    result
   end
   
   # Iterates over the TreeMap from smallest to largest element. Iterative approach.
@@ -288,58 +229,6 @@ class RubyRBTreeMap
       update_size
     end
   end
-
-  def delete_recursive(node, key)
-    if (key <=> node.key) == -1
-      node.move_red_left if ( !isred(node.left) && !isred(node.left.left) )
-      node.left, result = delete_recursive(node.left, key)
-    else
-      node.rotate_right if isred(node.left)
-      if ( ( (key <=> node.key) == 0) && node.right.nil? )
-        return nil, node.value
-      end
-      if ( !isred(node.right) && !isred(node.right.left) )
-        node.move_red_right
-      end
-      if (key <=> node.key) == 0
-        result = node.value
-        node.value = get_recursive(node.right, min_recursive(node.right))
-        node.key = min_recursive(node.right)
-        node.right = delete_min_recursive(node.right).first
-      else
-        node.right, result = delete_recursive(node.right, key)
-      end
-    end
-    return node.fixup, result
-  end
-  private :delete_recursive
-  
-  def delete_min_recursive(node)
-    if node.left.nil?
-      return nil, node.value 
-    end
-    if ( !isred(node.left) && !isred(node.left.left) )
-      node.move_red_left
-    end
-    node.left, result = delete_min_recursive(node.left)
-    
-    return node.fixup, result
-  end
-  private :delete_min_recursive
-  
-  def delete_max_recursive(node)
-    if (isred(node.left))
-      node = node.rotate_right
-    end
-    return nil, node.value if node.right.nil?
-    if ( !isred(node.right) && !isred(node.right.left) )
-      node.move_red_right
-    end
-    node.right, result = delete_max_recursive(node.right)
-    
-    return node.fixup, result
-  end
-  private :delete_max_recursive
   
   def get_recursive(node, key)
     return nil if node.nil?
@@ -369,9 +258,8 @@ class RubyRBTreeMap
     return Node.new(key, value) unless node
 
     case key <=> node.key
-    when  0 then node.value = value
-    when -1 then node.left = insert(node.left, key, value)
-    when  1 then node.right = insert(node.right, key, value)
+    when -1   then node.left = insert(node.left, key, value)
+    when  1,0 then node.right = insert(node.right, key, value)
     end
     
     node.rotate_left if (node.right && node.right.red?)
