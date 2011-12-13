@@ -2,8 +2,8 @@ t = Integer(ARGV[0])
 puts t
 
 t.times do
-  d = rand(100000)
-  m = rand(1000)
+  d = rand(t)
+  m = rand(t)
 
   puts "#{d} #{m}"
 end
