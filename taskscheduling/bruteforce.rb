@@ -1,5 +1,3 @@
-require 'algorithms'
-
 class Task
   attr_reader :deadline
   attr_reader :time
@@ -17,14 +15,15 @@ class Task
 end
 
 if $0 == __FILE__
-  tasks = Containers::RubyRBTreeMap.new
+  tasks = []
 
   t = Integer(ARGF.readline)
   t.times do
     d,m = ARGF.readline.split.map {|i| Integer(i)}
     
     new_task = Task.new(d,m)
-    tasks.push new_task, new_task
+    tasks.push new_task
+    tasks.sort!
 
     time = 0
     overshoot = 0
