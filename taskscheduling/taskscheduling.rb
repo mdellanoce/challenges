@@ -1,35 +1,46 @@
 class Task
   attr_reader :deadline
+  attr_accessor :done
   attr_reader :time
 
   def initialize(deadline, time)
     @deadline = deadline
     @time = time
+    @done = time
   end
 
   def <=>(other)
     a = deadline <=> other.deadline
-    return a if a != 0
-    time <=> other.time
+    if a == 0
+      a = time <=> other.time
+    end
+    a
+  end
+
+  def overshoot
+    [0,done-deadline].max
   end
 
   def to_s
-    "#{deadline} #{time}"
+    "#{deadline} #{time} => #{done} #{overshoot}"
   end
 end
 
 class Array
-  def insert_sorted(obj)
+  def insert_sorted(task)
     a = 0
-    0.upto(length) do |i|
-      a = i
-      break if (i==length) or (obj <=> self[i]) < 0
+    overshoot = 0
+    each do |t|
+      if (task <=> t) < 0
+        t.done += task.time
+      else
+        task.done += t.time
+        a+=1
+      end
+      overshoot = [overshoot, task.overshoot, t.overshoot].max
     end
-    if a == length
-      push obj
-    else
-      insert a,obj
-    end
+    insert a,task
+    overshoot
   end
 end
 
@@ -41,16 +52,6 @@ if $0 == __FILE__
     d,m = ARGF.readline.split.map {|i| Integer(i)}
     
     new_task = Task.new(d,m)
-    tasks.insert_sorted new_task
-    puts tasks.inspect
-
-    time = 0
-    overshoot = 0
-    tasks.each do |task|
-      time += task.time
-      overshoot = [time - task.deadline, overshoot].max
-    end
-
-    puts overshoot
+    puts tasks.insert_sorted(new_task)
   end
 end
