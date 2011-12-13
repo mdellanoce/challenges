@@ -1,5 +1,3 @@
-require 'algorithms'
-
 class Task
   attr_reader :deadline
   attr_reader :time
@@ -14,49 +12,37 @@ class Task
     return a if a != 0
     time <=> other.time
   end
+
+  def to_s
+    "#{deadline} #{time}"
+  end
 end
 
-class PriorityQueue
-  def initialize
-    @heap = []
-  end
-
-  def push(val)
-    @heap.push val
-    i = @heap.length-1
-    while i>0 do
-      parent = (i-1)/2
-      if (@heap[i] <=> @heap[parent]) < 0
-        @heap[i],@heap[parent] = @heap[parent],@heap[i]
-      end
-      i=parent
+class Array
+  def insert_sorted(obj)
+    a = 0
+    0.upto(length) do |i|
+      a = i
+      break if (i==length) or (obj <=> self[i]) < 0
     end
-  end
-
-  def pop
-    val = min
-    #TODO
-    val
-  end
-
-  def min
-    @heap[0]
-  end
-
-  def length
-    @heap.length
+    if a == length
+      push obj
+    else
+      insert a,obj
+    end
   end
 end
 
 if $0 == __FILE__
-  tasks = Containers::RubyRBTreeMap.new
+  tasks = []
 
   t = Integer(ARGF.readline)
   t.times do
     d,m = ARGF.readline.split.map {|i| Integer(i)}
     
     new_task = Task.new(d,m)
-    tasks.push new_task, new_task
+    tasks.insert_sorted new_task
+    puts tasks.inspect
 
     time = 0
     overshoot = 0
