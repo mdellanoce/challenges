@@ -5,102 +5,26 @@ class RedBlackTree
   
   def initialize
     @root = nil
-    @height_black = 0
   end
   
-  # Insert an item with an associated key into the TreeMap, and returns the item inserted
-  #
-  # Complexity: O(log n)
-  #
-  # map = TreeMap.new
-  # map.push("MA", "Massachusetts") #=> "Massachusetts"
-  # map.get("MA") #=> "Massachusetts"
   def push(key, value=key)
     @root = insert(@root, key, value)
-    @height_black += 1 if isred(@root)
     @root.color = :black
     value
   end
-  alias_method :[]=, :push
   
-  # Return the number of items in the TreeMap.
-  #
-  #   map = TreeMap.new
-  #   map.push("MA", "Massachusetts")
-  #   map.push("GA", "Georgia")
-  #   map.size #=> 2
   def size
     @root and @root.size or 0
   end
   
-  # Return the height of the tree structure in the TreeMap.
-  #
-  # Complexity: O(1)
-  #
-  #   map = TreeMap.new
-  #   map.push("MA", "Massachusetts")
-  #   map.push("GA", "Georgia")
-  #   map.height #=> 2
   def height
     @root and @root.height or 0
   end
   
-  # Return true if key is found in the TreeMap, false otherwise
-  #
-  # Complexity: O(log n)
-  #
-  #   map = TreeMap.new
-  #   map.push("MA", "Massachusetts")
-  #   map.push("GA", "Georgia")
-  #   map.has_key?("GA") #=> true
-  #   map.has_key?("DE") #=> false
-  def has_key?(key)
-    !get(key).nil?
-  end
-  
-  # Return the item associated with the key, or nil if none found.
-  #
-  # Complexity: O(log n)
-  #
-  #   map = TreeMap.new
-  #   map.push("MA", "Massachusetts")
-  #   map.push("GA", "Georgia")
-  #   map.get("GA") #=> "Georgia"
-  def get(key)
-    get_recursive(@root, key)
-  end
-  alias_method :[], :get
-  
-  # Return the smallest key in the map.
-  #
-  # Complexity: O(log n)
-  #
-  #   map = TreeMap.new
-  #   map.push("MA", "Massachusetts")
-  #   map.push("GA", "Georgia")
-  #   map.min_key #=> "GA"
-  def min_key
-    @root.nil? ? nil : min_recursive(@root)
-  end
-  
-  # Return the largest key in the map.
-  #
-  # Complexity: O(log n)
-  #
-  #   map = TreeMap.new
-  #   map.push("MA", "Massachusetts")
-  #   map.push("GA", "Georgia")
-  #   map.max_key #=> "MA"
-  def max_key
-    @root.nil? ? nil : max_recursive(@root)
-  end
-  
-  # Returns true if the tree is empty, false otherwise
   def empty?
     @root.nil?
   end
   
-  # Iterates over the TreeMap from smallest to largest element. Iterative approach.
   def each
     return nil unless @root
     stack = []
@@ -121,7 +45,7 @@ class RedBlackTree
     end
   end
   
-  class Node # :nodoc: all
+  class Node
     attr_accessor :color, :key, :value, :left, :right, :size, :height
     def initialize(key, value)
       @key = key
@@ -210,30 +134,8 @@ class RedBlackTree
       update_size
     end
   end
-  
-  def get_recursive(node, key)
-    return nil if node.nil?
-    case key <=> node.key
-    when  0 then return node.value
-    when -1 then return get_recursive(node.left, key)
-    when  1 then return get_recursive(node.right, key)
-    end
-  end
-  private :get_recursive
-  
-  def min_recursive(node)
-    return node.key if node.left.nil?
-    
-    min_recursive(node.left)
-  end
-  private :min_recursive
-  
-  def max_recursive(node)
-    return node.key if node.right.nil?
-    
-    max_recursive(node.right)
-  end
-  private :max_recursive
+
+  protected
   
   def insert(node, key, value)
     return Node.new(key, value) unless node
@@ -248,12 +150,4 @@ class RedBlackTree
     node.colorflip if (node.left && node.left.red? && node.right && node.right.red?)
     node.update_size
   end
-  private :insert
-  
-  def isred(node)
-    return false if node.nil?
-    
-    node.color == :red
-  end
-  private :isred
 end
