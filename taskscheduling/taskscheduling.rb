@@ -29,7 +29,7 @@ end
 class Array
   def insert_sorted(task)
     a = 0
-    overshoot = 0
+    overshoot = task.overshoot
     each do |t|
       if (task <=> t) < 0
         t.done += task.time

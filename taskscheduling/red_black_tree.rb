@@ -1,27 +1,8 @@
-=begin rdoc
-    A RBTreeMap is a map that is stored in sorted order based on the order of its keys. This ordering is
-    determined by applying the function <=> to compare the keys. No duplicate values for keys are allowed,
-    so duplicate values are overwritten.
-    
-    A major advantage of RBTreeMap over a Hash is the fact that keys are stored in order and can thus be
-    iterated over in order. This is useful for many datasets.
-    
-    The implementation is adapted from Robert Sedgewick's Left Leaning Red-Black Tree implementation,
-    which can be found at http://www.cs.princeton.edu/~rs/talks/LLRB/Java/RedBlackBST.java
-    
-    RBTreeMap automatically uses the faster C implementation if it was built 
-    when the gem was installed. Alternatively, RubyRBTreeMap and CRBTreeMap can be 
-    explicitly used as well; their functionality is identical.
-    
-    Most methods have O(log n) complexity.
-    
-=end
-class RubyRBTreeMap
+class RedBlackTree
   include Enumerable
   
   attr_accessor :height_black
   
-  # Create and initialize a new empty TreeMap.
   def initialize
     @root = nil
     @height_black = 0

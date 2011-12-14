@@ -1,3 +1,5 @@
+require './red_black_tree'
+
 class Task
   attr_reader :deadline
   attr_reader :time
@@ -15,7 +17,7 @@ class Task
 end
 
 if $0 == __FILE__
-  tasks = []
+  tasks = RedBlackTree.new
 
   t = Integer(ARGF.readline)
   t.times do
@@ -23,7 +25,6 @@ if $0 == __FILE__
     
     new_task = Task.new(d,m)
     tasks.push new_task
-    tasks.sort!
 
     time = 0
     overshoot = 0
